@@ -5,12 +5,10 @@ Revises: 9ad9d007c52c
 Create Date: 2023-04-18 23:40:23.876401
 
 """
-from alembic import op
-import sqlalchemy as sa
 from werkzeug.security import generate_password_hash
 
 from blog.extensions import db
-from blog.user.models import User
+from blog.models import User
 
 # revision identifiers, used by Alembic.
 revision = 'c9314c5a406f'
@@ -28,6 +26,6 @@ def upgrade():
 
 def downgrade():
     db.session.delete(
-        User(email='admin@admin.com', name='admin', password=generate_password_hash('admin'), is_staff=True)
+        User.query.filter_by(name="admin")
     )
     db.session.commit()
